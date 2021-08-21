@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  title: eduro-hcs
+  description: | # language=markdown
+    lhwdev가 만든 eduro-hcs(https://hcs.eduro.go.kr)의 비공식 openapi 스펙입니다.  
+    이 api의 url은 `???`가 3자리 교육부 코드(`sen`, `dge` 등) `https://???hcs.eduro.go.kr`이여야 합니다.
+    `https://hcs.eduro.go.kr`에 위치한 api는 [eduro-hcs-common.yaml](eduro-hcs-common.yaml)을 참고하세요.
+  contact: 
+    email: lhwdev6@outlook.com
+    
+  version: 1.7.59 # aligned with UI version of hcs: https://hcs.eduro.go.kr/#/main
+paths:
+  /v2/searchSchool:
+    summary: 학교를 이름으로 검색합니다.
