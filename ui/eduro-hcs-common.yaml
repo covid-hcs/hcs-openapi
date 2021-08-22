@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  title: eduro-hcs
+  description: | # language=markdown
+    lhwdev가 만든 eduro-hcs(https://hcs.eduro.go.kr)의 비공식 openapi 스펙입니다.  
+    이 api의 url은 `https://hcs.eduro.go.kr`입니다.
+    
+    실질적으로 많이 쓰이는 api들은 각 시도교육청 url에 위치해 있습니다.
+    이는 [eduro-hcs.yaml](eduro-hcs.yaml)을 참고하세요.
+  contact:
+    email: lhwdev6@outlook.com
+  
+  version: 1.7.59 # aligned with UI version of hcs: https://hcs.eduro.go.kr/#/main/v2/searchSchool:
+servers:
+  - url: https://hcs.eduro.go.kr
+components:
+  schemas:
+    InstituteInfo:
+      $ref: './schemas/InstituteInfo.yaml'
+    RegionCodes:
+      $ref: './schemas/RegionCodes.yaml'
+paths:
+  /v2/searchSchool:
+    get:
+      summary: 이름으로 기관 검색
+      description: |
+        학교, 대학교, 교육행정기관이나 학원을 검색할 수 있습니다.
+        
+        - **학교**: loginType=`school`, orgName, (lctnScCode, schulCrseScCode: 써도, 안써도 됨)
+        - **대학**: loginType=`univ`, orgName
+        - **교육행정기관**: loginType=`office`, orgName
+        - **학원**: loginType=`office`, isAcademySearch=`true`, lctnScCode, sigCode(/v2/getMinors 참고), orgName
+      parameters:
+        - in: query
+          name: loginType
+          description: 기관 유형
+          schema:
+            type: string
+            enum: [ school, univ, office ]
+          required: true
+        - in: query
+          name: orgName
+          description: 기관 이름
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: lctnScCode
+          description: 지역 코드(loginType이 school이거나 office이고 학원을 검색할 때)
+          schema:
+            $ref: '#/components/schemas/RegionCodes'
+        - in: query
+          name: schulCrseScCode
+          description: 학교 단계 코드(loginType이 school일 때)
+          schema:
+            type: string
+            oneOf:
+              - enum: [ 1 ]
+                title: 유치원
+              - enum: [ 2 ]
+                title: 초등학교
+              - enum: [ 3 ]
+                title: 중학교
+              - enum: [ 4 ]
+                title: 고등학교
+              - enum: [ 5 ]
+                title: 특수학교
+        - in: query
+          name: isAcademySearch
+          description: 학원을 검색하는지 여부(아니면 입력하지 않음)
+          schema:
+            type: boolean
+            enum: [ true, false ]
+          required: false
+        - in: query
+          name: sigCode
+          schema:
+            type: string
+      responses:
+        200:
+          description: 학교 목록입니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  properties:
+                    schulList:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/InstituteInfo'
+  
+  /v2/getMinors:
+    get:
+      summary: 시/군/구 코드 가져오기
+      description: |
+        `/v2/searchSchool`에서 학원 정보를 가져올 때 `sigCode`에 들어가는 값을 얻을 수 있습니다.
+      parameters:
+        - in: query
+          name: queryUrlParamsToString
+          schema:
+            type: string
+            enum: [ SIG_CODE ]
+        - in: query
+          name: upperClsfCodeValue
+          schema:
+            type: string
+            enum: [ LCTN_SC_CODE ]
+        - in: query
+          name: stateKey
+          schema:
+            type: string
+            enum: [ sigCodes ]
+        - in: query
+          name: upperCdcValue
+          schema: 
+            $ref: '#/components/schemas/RegionCodes'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  properties:
+                    cdcValueNm:
+                      type: string
+                      title: 시/도 이름
+                    cdcValueAbrvNm:
+                      type: string
+                      title: 시/도 이름 약어
+                    upperCdcValue:
+                      type: string
+                      title: 시/군/구 코드

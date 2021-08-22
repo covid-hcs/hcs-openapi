@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: eduro-hcs
+  description: | # language=markdown
+    lhwdev가 만든 eduro-hcs(https://hcs.eduro.go.kr)의 비공식 openapi 스펙입니다.  
+    이 api의 url은 `???`가 3자리 교육부 코드(`sen`, `dge` 등)일 때, `https://???hcs.eduro.go.kr`이여야 합니다.
+    
+    `https://hcs.eduro.go.kr`에 위치한 api는 [eduro-hcs-common.yaml](eduro-hcs-common.yaml)을 참고하세요.
+  contact: 
+    email: lhwdev6@outlook.com
+    
+  version: 1.7.59 # aligned with UI version of hcs: https://hcs.eduro.go.kr/#/main
+servers: # https://www.moe.go.kr/sub/info.do?m=060104 참고
+  - url: https://senhcs.eduro.go.kr
+    description: 서울특별시 교육청
+  - url: https://penhcs.eduro.go.kr
+    description: 부산광역시 교육청
+  - url: https://dgehcs.eduro.go.kr
+    description: 대구광역시 교육청
+  - url: https://icehcs.eduro.go.kr
+    description: 인천광역시 교육청
+  - url: https://genhcs.eduro.go.kr
+    description: 광주광역시 교육청
+  - url: https://djehcs.eduro.go.kr
+    description: 대전광역시 교육청
+  - url: https://usehcs.eduro.go.kr
+    description: 울산광역시 교육청
+  - url: https://sjehcs.eduro.go.kr
+    description: 세종특별자치시 교육청
+  - url: https://goehcs.eduro.go.kr
+    description: 경기도 교육청
+  - url: https://kwehcs.eduro.go.kr # 없음
+    description: 강원도 교육청
+  - url: https://cbehcs.eduro.go.kr
+    description: 충청북도 교육청
+  - url: https://cnehcs.eduro.go.kr
+    description: 충청남도 교육청
+  - url: https://jbehcs.eduro.go.kr
+    description: 전라북도 교육청
+  - url: https://jnehcs.eduro.go.kr
+    description: 전라남도 교육청
+  - url: https://gbehcs.eduro.go.kr # 없음
+    description: 경상북도 교육청
+  - url: https://gnehcs.eduro.go.kr
+    description: 경상남도 교육청
+  - url: https://jjehcs.eduro.go.kr
+    description: 제주도 교육청
+  - url: https://kwehcs.eduro.go.kr
+
+components:
+  securitySchemes:
+    UsersIdToken:
+      type: http
+      scheme: bearer
+
+paths:
+  /v2/findUser:
+    post:
+      summary: 사용자 정보 찾기
+      description: |
+        사용자의 이름, 생일 등으로 사용자가 존재하는지 확인하고, 사용자의 UsersIdToken을 얻습니다.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema: 
+              type: object
+              items:
+                properties: 
+                  orgCode:
+                    $ref: './schemas/InstituteCode.yaml'
+                  name:
+                    
+      responses: 
+        200:
+          description: 사용자를 찾음
+          
+  /v2/hasPassword:
+    post:
+      summary: 비밀번호 존재 유무/UsersIdToken 얻기
+      description: |
+        대상 사용자가 비밀번호가 있는지 확인합니니다.
+        
+        만약 이 api의 결과가 false(비밀번호 없음)이라면 자가진단 공식 사이트/앱으로 안내하거나,
+        `/v2/registerPassword`를 호출해서 비밀번호를 정하세요.
+      security:
+        - UsersIdToken: []
+      responses:
+        
