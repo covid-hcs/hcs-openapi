@@ -9,13 +9,13 @@ jobs:
         uses: Legion2/swagger-ui-action@v1
         with:
           output: swagger-ui/ui
-          spec-file: eduro-hcs-common.json
+          spec-file: eduro-hcs-common.yaml
       
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
           output: swagger-ui/common
-          spec-file: eduro-hcs.json
+          spec-file: eduro-hcs.yaml
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
