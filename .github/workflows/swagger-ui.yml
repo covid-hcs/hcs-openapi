@@ -5,6 +5,9 @@ jobs:
   SwaggerUi:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
