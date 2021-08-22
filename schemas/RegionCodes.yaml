@@ -1,0 +1,36 @@
+type: string
+oneOf:
+  - enum: [ 01 ]
+    title: 서울
+  - enum: [ 02 ]
+    title: 부산
+  - enum: [ 03 ]
+    title: 대구
+  - enum: [ 04 ]
+    title: 인천
+  - enum: [ 05 ]
+    title: 광주
+  - enum: [ 06 ]
+    title: 대전
+  - enum: [ 07 ]
+    title: 울산
+  - enum: [ 08 ]
+    title: 세종
+  - enum: [ 10 ]
+    title: 경기
+  - enum: [ 11 ]
+    title: 강원
+  - enum: [ 12 ]
+    title: 충북
+  - enum: [ 13 ]
+    title: 충남
+  - enum: [ 14 ]
+    title: 전북
+  - enum: [ 15 ]
+    title: 전남
+  - enum: [ 16 ]
+    title: 경북
+  - enum: [ 17 ]
+    title: 경남
+  - enum: [ 18 ]
+    title: 제주

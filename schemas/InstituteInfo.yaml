@@ -1,0 +1,20 @@
+type: object
+properties:
+  kraOrgNm:
+    title: 기관 이름
+    type: string
+    examples:
+      - 동대문학교
+      - 보성공업고등기술학교
+  orgCode:
+    $ref: './InstituteCode.yaml'
+  addres:
+    title: 주소
+    type: string
+    examples:
+      - 부산광역시 동구 초량3동 11671
+  atptOfcdcConctUrl:
+    title: 시도 교육청 url
+    type: string
+    examples:
+      - https://senhcs.eduro.go.kr

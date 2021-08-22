@@ -47,6 +47,43 @@ servers: # https://www.moe.go.kr/sub/info.do?m=060104 참고
     description: 제주도 교육청
   - url: https://kwehcs.eduro.go.kr
 
+components:
+  securitySchemes:
+    UsersIdToken:
+      type: http
+      scheme: bearer
+
 paths:
-  
-    
+  /v2/findUser:
+    post:
+      summary: 사용자 정보 찾기
+      description: |
+        사용자의 이름, 생일 등으로 사용자가 존재하는지 확인하고, 사용자의 UsersIdToken을 얻습니다.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema: 
+              type: object
+              items:
+                properties: 
+                  orgCode:
+                    $ref: './schemas/InstituteCode.yaml'
+                  name:
+                    
+      responses: 
+        200:
+          description: 사용자를 찾음
+          
+  /v2/hasPassword:
+    post:
+      summary: 비밀번호 존재 유무/UsersIdToken 얻기
+      description: |
+        대상 사용자가 비밀번호가 있는지 확인합니니다.
+        
+        만약 이 api의 결과가 false(비밀번호 없음)이라면 자가진단 공식 사이트/앱으로 안내하거나,
+        `/v2/registerPassword`를 호출해서 비밀번호를 정하세요.
+      security:
+        - UsersIdToken: []
+      responses:
+        

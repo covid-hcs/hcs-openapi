@@ -4,6 +4,9 @@ info:
   description: | # language=markdown
     lhwdev가 만든 eduro-hcs(https://hcs.eduro.go.kr)의 비공식 openapi 스펙입니다.  
     이 api의 url은 `https://hcs.eduro.go.kr`입니다.
+    
+    실질적으로 많이 쓰이는 api들은 각 시도교육청 url에 위치해 있습니다.
+    이는 [eduro-hcs.yaml](eduro-hcs.yaml)을 참고하세요.
   contact:
     email: lhwdev6@outlook.com
   
@@ -13,28 +16,9 @@ servers:
 components:
   schemas:
     InstituteInfo:
-      type: object
-      properties:
-        kraOrgNm:
-          title: 기관 이름
-          type: string
-          example:
-            - 동대문학교
-            - 보성공업고등기술학교
-        orgCode:
-          title: 기관 코드
-          description: | # language=markdown
-            알파벳 1글자 + 숫자 10글자로 이루어진 기관 코드입니다. 특히 처음 세 자리는 교육청 코드입니다.
-            전체 기관 목록은 [여기](https://docs.google.com/spreadsheets/d/ta6W1a9bLxNySwbuRvQA4fA/edit)에서 확인할 수 있습니다.
-          example:
-            - B100006026
-            - D100000314
-        addres:
-          title: 주소
-          type: string
-          example: 부산광역시 동구 초량3동 11671
-        atptOfcdcConctUrl:
-          title: 시도 교육청 url
+      $ref: './schemas/InstituteInfo.yaml'
+    RegionCodes:
+      $ref: './schemas/RegionCodes.yaml'
 paths:
   /v2/searchSchool:
     get:
@@ -64,42 +48,7 @@ paths:
           name: lctnScCode
           description: 지역 코드(loginType이 school이거나 office이고 학원을 검색할 때)
           schema:
-            type: string
-            oneOf:
-              - enum: [ 01 ]
-                title: 서울
-              - enum: [ 02 ]
-                title: 부산
-              - enum: [ 03 ]
-                title: 대구
-              - enum: [ 04 ]
-                title: 인천
-              - enum: [ 05 ]
-                title: 광주
-              - enum: [ 06 ]
-                title: 대전
-              - enum: [ 07 ]
-                title: 울산
-              - enum: [ 08 ]
-                title: 세종
-              - enum: [ 10 ]
-                title: 경기
-              - enum: [ 11 ]
-                title: 강원
-              - enum: [ 12 ]
-                title: 충북
-              - enum: [ 13 ]
-                title: 충남
-              - enum: [ 14 ]
-                title: 전북
-              - enum: [ 15 ]
-                title: 전남
-              - enum: [ 16 ]
-                title: 경북
-              - enum: [ 17 ]
-                title: 경남
-              - enum: [ 18 ]
-                title: 제주
+            $ref: '#/components/schemas/RegionCodes'
         - in: query
           name: schulCrseScCode
           description: 학교 단계 코드(loginType이 school일 때)
@@ -140,4 +89,47 @@ paths:
                       type: array
                       items:
                         $ref: '#/components/schemas/InstituteInfo'
-
+  
+  /v2/getMinors:
+    get:
+      summary: 시/군/구 코드 가져오기
+      description: |
+        `/v2/searchSchool`에서 학원 정보를 가져올 때 `sigCode`에 들어가는 값을 얻을 수 있습니다.
+      parameters:
+        - in: query
+          name: queryUrlParamsToString
+          schema:
+            type: string
+            enum: [ SIG_CODE ]
+        - in: query
+          name: upperClsfCodeValue
+          schema:
+            type: string
+            enum: [ LCTN_SC_CODE ]
+        - in: query
+          name: stateKey
+          schema:
+            type: string
+            enum: [ sigCodes ]
+        - in: query
+          name: upperCdcValue
+          schema: 
+            $ref: '#/components/schemas/RegionCodes'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  properties:
+                    cdcValueNm:
+                      type: string
+                      title: 시/도 이름
+                    cdcValueAbrvNm:
+                      type: string
+                      title: 시/도 이름 약어
+                    upperCdcValue:
+                      type: string
+                      title: 시/군/구 코드

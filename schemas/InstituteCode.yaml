@@ -1,0 +1,8 @@
+title: 기관 코드
+type: string
+description: | # language=markdown
+  알파벳 1글자 + 숫자 10글자로 이루어진 기관 코드입니다. 특히 처음 세 자리는 교육청 코드입니다.
+  전체 기관 목록은 [여기](https://docs.google.com/spreadsheets/d/ta6W1a9bLxNySwbuRvQA4fA/edit)에서 확인할 수 있습니다.
+example:
+  - B100006026
+  - D100000314
