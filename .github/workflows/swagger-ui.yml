@@ -25,7 +25,7 @@ jobs:
           output: output/common
           spec-file: source/eduro-hcs.yaml
       - run: |
-          cp --recursive source/public/ output
+          cp --recursive source/public/. output
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
