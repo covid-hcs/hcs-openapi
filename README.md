@@ -7,6 +7,7 @@
 문서를 웹사이트에서 열면 브라우저가 CORS를 막기 때문에, Chrome, Firefox 등 웹브라우저의
 web security를 끈 인스턴스를 새로 시작해야 합니다.
 
+윈도우에서 크롬의 경우 아래처럼 실행하면 됩니다. `chrome.exe`를 찾지 못했다고 뜬다면 적당한 경로를 입력해주세요.
 ```shell
-"크롬 경로\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=%Temp%/chromeTemp # 크롬의 경우
+chrome.exe --disable-web-security --disable-gpu --user-data-dir=%Temp%/chromeTemp
 ```
