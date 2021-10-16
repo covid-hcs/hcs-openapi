@@ -10,7 +10,7 @@ jobs:
         path: source
       
       - run: |
-        mkdir --parents output
+          mkdir --parents output
       
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
@@ -24,7 +24,7 @@ jobs:
           output: output/common
           spec-file: source/eduro-hcs.yaml
       - run: |
-        cp --recursive source/public output
+          cp --recursive source/public output
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
