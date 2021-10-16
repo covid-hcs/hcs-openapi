@@ -2,11 +2,20 @@ openapi: 3.0.3
 info:
   title: eduro-hcs
   description: | # language=markdown
+    **이 문서는 아직 완성되지 않았으며, 정상적으로 작동한다는 보장이 없습니다!**
     lhwdev가 만든 eduro-hcs(https://hcs.eduro.go.kr)의 비공식 openapi 스펙입니다.  
     이 api의 url은 `https://hcs.eduro.go.kr`입니다.
     
     실질적으로 많이 쓰이는 api들은 각 시도교육청 url에 위치해 있습니다.
     이는 [eduro-hcs.yaml](eduro-hcs.yaml)을 참고하세요.
+    
+    문서를 웹사이트에서 열면 브라우저가 CORS를 막기 때문에, Chrome, Firefox 등 웹브라우저의
+    web security를 끈 인스턴스를 새로 시작해야 합니다.
+
+    ```shell
+    "크롬 경로\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=%Temp%/chromeTemp # 크롬의 경우
+    ```
+
   contact:
     email: lhwdev6@outlook.com
   

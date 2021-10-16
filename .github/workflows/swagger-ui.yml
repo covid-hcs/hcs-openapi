@@ -7,21 +7,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        path: source
+      
+      - run: |
+        mkdir --parents output
       
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
-          output: swagger-ui/ui
-          spec-file: eduro-hcs-common.yaml
+          output: output/ui
+          spec-file: source/eduro-hcs-common.yaml
       
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
-          output: swagger-ui/common
-          spec-file: eduro-hcs.yaml
+          output: output/common
+          spec-file: source/eduro-hcs.yaml
+      - run: |
+        cp --recursive source/public output
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: swagger-ui
+          publish_dir: output
+          
+          enable_jekyll: true
