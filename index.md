@@ -11,5 +11,5 @@ web security를 끈 인스턴스를 새로 시작해야 합니다.
 
 
 ## 문서들
-- [eduro-hcs-common.yaml](eduro-hcs-common.yaml)
-- [eduro-hcs.yaml](eduro-hcs.yaml)
+- [eduro-hcs-common.yaml](common)
+- [eduro-hcs.yaml](ui)
