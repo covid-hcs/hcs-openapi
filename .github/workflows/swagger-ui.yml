@@ -16,13 +16,13 @@ jobs:
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
-          output: output/ui
+          output: output/common
           spec-file: source/eduro-hcs-common.yaml
       
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
-          output: output/common
+          output: output/ui
           spec-file: source/eduro-hcs.yaml
       - run: |
           cp --recursive source/public/. output
