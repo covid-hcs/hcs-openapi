@@ -1,4 +1,6 @@
 # 🚧 hcs-openapi
+문서 url: https://covid-hcs.github.com/hcs-openapi
+
 교육청 건강상태 자가진단 내부 api의 openapi 스펙입니다.
 현재 만들고 있는 상태이며, 아직 유용한 자료는 얼아 없을거에요.
 
